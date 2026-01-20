@@ -7,6 +7,8 @@ It provides three generators:
 - 🕒 **Watch Dial Generator** – hour markers, minute ticks, numbers or symbols (CSV driven)
 - 🎨 **Dial Pattern Generator** – guilloché, sunburst, concentric, crosshatch, and multi-layer “auto complex” textures
 - ⚙️ **Blank Dial / Movement Template Generator** – NH35, ST36 layout templates (holes, date window, feet, sub-dial)
+
+I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). 
   
 ---
 
