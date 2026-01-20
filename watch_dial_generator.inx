@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Watch Dial Generator</name>
+  <id>com.bjj.watchdial.generator</id>
+
+  <param name="ui" type="notebook">
+    <page name="dial" gui-text="Dial">
+      <param name="dial_diameter_mm" type="float" min="10" max="60" precision="2" gui-text="Dial diameter (mm)">28.5</param>
+
+      <param name="draw_dial_outline" type="bool" gui-text="Draw dial outline">true</param>
+      <param name="dial_outline_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Outline stroke (mm)">0.12</param>
+      <param name="outline_compensate_stroke" type="bool" gui-text="Compensate outline for stroke (keeps outer diameter exact)">true</param>
+
+      <separator/>
+
+      <param name="draw_center_hole" type="bool" gui-text="Draw center hole">true</param>
+      <param name="center_hole_mm" type="float" min="0.1" max="10" precision="2" gui-text="Center hole diameter (mm)">1.5</param>
+    </page>
+
+    <page name="text" gui-text="Text">
+      <param name="start_angle_deg" type="float" min="-360" max="360" precision="2" gui-text="Start angle (deg, 0=12 o'clock)">0</param>
+      <param name="clockwise" type="bool" gui-text="Clockwise">true</param>
+
+      <separator/>
+
+      <param name="text_mode" type="optiongroup" appearance="combo" gui-text="Text mode">
+        <option value="arabic">Arabic (1–12)</option>
+        <option value="roman">Roman (I–XII)</option>
+        <option value="custom">Custom (CSV)</option>
+      </param>
+
+      <param name="labels_csv" type="string" gui-text="Custom labels (CSV)"></param>
+
+      <param name="roman_four_style" type="optiongroup" appearance="combo" gui-text="Roman 4 style">
+        <option value="IV">IV</option>
+        <option value="IIII">IIII</option>
+      </param>
+
+      <param name="omit_three" type="bool" gui-text="Omit 3 for date window">false</param>
+
+      <separator/>
+
+      <param name="text_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Text radius (mm)">11.5</param>
+      <param name="text_radial_offset_mm" type="float" min="-10" max="10" precision="2" gui-text="Text radial offset (mm)">0</param>
+      <param name="text_angle_offset_deg" type="float" min="-30" max="30" precision="2" gui-text="Text angle offset (deg)">0</param>
+
+      <separator/>
+
+      <param name="font_family" type="string" gui-text="Font family">Times New Roman</param>
+      <param name="font_size_mm" type="float" min="0.2" max="10" precision="2" gui-text="Font size (mm)">2.6</param>
+
+      <param name="text_baseline" type="optiongroup" appearance="combo" gui-text="Text baseline">
+        <option value="alphabetic">alphabetic</option>
+        <option value="central">central</option>
+        <option value="middle">middle</option>
+        <option value="hanging">hanging</option>
+      </param>
+
+      <param name="number_orientation" type="optiongroup" appearance="combo" gui-text="Number orientation">
+        <option value="upright">upright</option>
+        <option value="tangent">tangent</option>
+        <option value="radial">radial</option>
+        <option value="tangent_readable">tangent_readable</option>
+      </param>
+    </page>
+
+    <page name="markers" gui-text="Markers">
+      <param name="show_hour_markers" type="bool" gui-text="Show hour markers">true</param>
+      <param name="hour_marker_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Hour marker radius (mm)">12.8</param>
+      <param name="hour_marker_w_mm" type="float" min="0.01" max="10" precision="2" gui-text="Hour marker width (mm)">0.7</param>
+      <param name="hour_marker_h_mm" type="float" min="0.01" max="20" precision="2" gui-text="Hour marker height (mm)">1.8</param>
+
+      <param name="hour_marker_align" type="optiongroup" appearance="combo" gui-text="Hour marker align">
+        <option value="outer">outer</option>
+        <option value="center">center</option>
+        <option value="inner">inner</option>
+      </param>
+
+      <separator/>
+
+      <param name="show_minute_ticks" type="bool" gui-text="Show minute ticks">true</param>
+      <param name="minute_tick_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Minute tick radius (mm)">13.6</param>
+      <param name="minute_tick_w_mm" type="float" min="0.01" max="10" precision="2" gui-text="Minute tick width (mm)">0.25</param>
+      <param name="minute_tick_h_mm" type="float" min="0.01" max="20" precision="2" gui-text="Minute tick height (mm)">1.0</param>
+      <param name="five_minute_scale" type="float" min="1" max="10" precision="2" gui-text="5-minute tick scale">1.7</param>
+
+      <param name="minute_tick_align" type="optiongroup" appearance="combo" gui-text="Minute tick align">
+        <option value="outer">outer</option>
+        <option value="center">center</option>
+        <option value="inner">inner</option>
+      </param>
+    </page>
+
+    <page name="output" gui-text="Output">
+      <param name="group_name" type="string" gui-text="Output group name">watch-dial</param>
+    </page>
+  </param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Watch Dial Tools"/>
+    </effects-menu>
+  </effect>
+
+  <script>
+    <command location="inx" interpreter="python">watch_dial_generator.py</command>
+  </script>
+</inkscape-extension>

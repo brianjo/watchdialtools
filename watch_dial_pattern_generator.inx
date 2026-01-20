@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Dial Pattern Generator</name>
+  <id>com.bjj.watchdial.patterns</id>
+
+  <!-- Tabbed UI to keep the dialog short on smaller screens -->
+  <param name="ui" type="notebook">
+    <page name="base" gui-text="Base">
+      <param name="dial_diameter_mm" type="float" min="10" max="60" precision="2" gui-text="Dial diameter (mm)">28.5</param>
+
+      <param name="draw_outline" type="bool" gui-text="Draw outline">true</param>
+      <param name="outline_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Outline stroke (mm)">0.12</param>
+      <param name="outline_compensate_stroke" type="bool" gui-text="Compensate outline for stroke (keeps outer diameter exact)">true</param>
+
+      <separator/>
+
+      <param name="clip_to_circle" type="bool" gui-text="Clip pattern to circle">true</param>
+      <param name="inner_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Inner radius (mm)">0.0</param>
+    </page>
+
+    <page name="pattern" gui-text="Pattern">
+      <param name="pattern_type" type="optiongroup" appearance="combo" gui-text="Pattern type">
+        <option value="guilloche">Guilloché (rosette)</option>
+        <option value="concentric">Concentric rings</option>
+        <option value="sunburst">Sunburst</option>
+        <option value="crosshatch">Crosshatch</option>
+      </param>
+
+      <separator/>
+
+      <param name="stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Stroke width (mm)">0.10</param>
+      <param name="stroke_color" type="string" gui-text="Stroke color (hex)">#000000</param>
+      <param name="stroke_opacity" type="float" min="0.0" max="1.0" precision="2" gui-text="Stroke opacity">0.35</param>
+    </page>
+
+    <page name="guilloche" gui-text="Guilloché">
+      <param name="lobes" type="int" min="2" max="200" gui-text="Lobes">12</param>
+      <param name="amplitude_mm" type="float" min="0" max="10" precision="2" gui-text="Amplitude (mm)">1.2</param>
+      <param name="points" type="int" min="200" max="20000" gui-text="Points (smoother = more)">1200</param>
+
+      <separator/>
+
+      <param name="ring_spacing_mm" type="float" min="0.05" max="5" precision="2" gui-text="Concentric ring spacing (mm)">0.6</param>
+    </page>
+
+    <page name="sunburst" gui-text="Sunburst">
+      <param name="rays" type="int" min="4" max="2000" gui-text="Rays">120</param>
+    </page>
+
+    <page name="crosshatch" gui-text="Crosshatch">
+      <param name="hatch_spacing_mm" type="float" min="0.05" max="5" precision="2" gui-text="Hatch spacing (mm)">0.7</param>
+      <param name="hatch_angle_deg" type="float" min="-90" max="90" precision="1" gui-text="Hatch angle (deg)">35.0</param>
+      <param name="hatch_double" type="bool" gui-text="Double hatch (adds 90° cross)">true</param>
+    </page>
+
+    <page name="auto" gui-text="Auto Complex">
+      <param name="auto_complex" type="bool" gui-text="Auto complex (multi-layer)">false</param>
+
+      <param name="complex_preset" type="optiongroup" appearance="combo" gui-text="Preset">
+        <option value="rosette_stack">Rosette stack</option>
+        <option value="breguet">Breguet-ish</option>
+        <option value="modern">Modern</option>
+        <option value="pocketwatch">Pocketwatch</option>
+      </param>
+
+      <param name="layers" type="int" min="1" max="20" gui-text="Layers">4</param>
+      <param name="seed" type="int" min="0" max="999999" gui-text="Seed">1</param>
+
+      <separator/>
+
+      <param name="rotate_jitter_deg" type="float" min="0" max="45" precision="2" gui-text="Rotation jitter (deg)">6.0</param>
+      <param name="opacity_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Opacity decay (per layer)">0.75</param>
+      <param name="stroke_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Stroke decay (per layer)">0.85</param>
+      <param name="lobe_jitter" type="int" min="0" max="100" gui-text="Lobe jitter">10</param>
+      <param name="amp_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Amplitude decay (per layer)">0.70</param>
+    </page>
+
+    <page name="output" gui-text="Output">
+      <param name="group_name" type="string" gui-text="Output group name">dial-pattern</param>
+    </page>
+  </param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Watch Dial Tools"/>
+    </effects-menu>
+  </effect>
+
+  <script>
+    <command location="inx" interpreter="python">watch_dial_pattern_generator.py</command>
+  </script>
+</inkscape-extension>

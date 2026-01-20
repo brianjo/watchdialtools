@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Blank Dial (Movement Template)</name>
+  <id>com.bjj.watchdials.blankdial</id>
+
+  <param name="movement_preset" type="optiongroup" appearance="combo" gui-text="Movement preset">
+    <option value="nh35">Seiko NH35 / NH36</option>
+    <option value="st36">Seagull ST36 / ST3600</option>
+    <option value="custom">Custom</option>
+  </param>
+
+  <param name="draw_outline" type="bool" gui-text="Draw outline">true</param>
+  <param name="outline_stroke_mm" type="float" gui-text="Outline stroke (mm)">0.12</param>
+  <param name="compensate_outline" type="bool" gui-text="Compensate outline">true</param>
+
+  <param name="draw_center_hole" type="bool" gui-text="Draw center hole">true</param>
+  <param name="draw_hand_holes" type="bool" gui-text="Draw hand holes">true</param>
+  <param name="draw_date_window" type="bool" gui-text="Draw date window (NH35)">true</param>
+  <param name="draw_subdial" type="bool" gui-text="Draw small seconds (ST36)">true</param>
+  <param name="draw_dial_feet" type="bool" gui-text="Draw dial feet (reference)">true</param>
+
+  <param name="group_name" type="string" gui-text="Output group name">dial-template</param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu name="Watch Dial Tools"/>
+    </effects-menu>
+  </effect>
+
+  <script>
+    <command reldir="extensions" interpreter="python">watch_dial_blank_generator.py</command>
+  </script>
+</inkscape-extension>
