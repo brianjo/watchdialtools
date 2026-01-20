@@ -162,8 +162,6 @@ GNU General Public License v2 or later (GPL-2.0+)
 Copyright (C) 2026  
 Brian Johnson  
 https://github.com/brianjo  
-brianjo@gmail.com
-
 ---
 
 ## Contributing
