@@ -37,6 +37,9 @@
       <param name="lobes" type="int" min="2" max="200" gui-text="Lobes">12</param>
       <param name="amplitude_mm" type="float" min="0" max="10" precision="2" gui-text="Amplitude (mm)">1.2</param>
       <param name="points" type="int" min="200" max="20000" gui-text="Points (smoother = more)">1200</param>
+      <separator/>
+      <param name="guilloche_fill" type="bool" gui-text="Fill dial (guilloché field)">false</param>
+      <param name="band_spacing_mm" type="float" min="0.05" max="2" precision="2" gui-text="Band spacing (mm) (smaller = denser)">0.35</param>
 
       <separator/>
 

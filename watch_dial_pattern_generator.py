@@ -219,6 +219,44 @@ def pattern_guilloche(svg, g, cx, cy, r_outer, lobes, amplitude, points, stroke_
     })
     g.add(p) if hasattr(g, 'add') else g.append(p)
 
+def pattern_guilloche_field(svg, g, cx, cy, r_outer, r_inner, lobes, amplitude, points,
+                           stroke_w, stroke_color, opacity, band_spacing):
+    """Draw a filled guilloché 'field' by stacking rosette bands from inner to outer radius.
+
+    This approximates engine-turned full-dial textures (e.g., barleycorn / rosette fields)
+    by drawing many rosette curves at increasing base radii.
+    """
+    lobes = max(2, int(lobes))
+    points = max(200, int(points))
+    band_spacing = max(0.1, float(band_spacing))  # uu
+    # Start slightly outside r_inner so the cosine doesn't dip negative
+    r = max(0.0, float(r_inner)) + amplitude
+    bands = 0
+    max_bands = 600  # safety against accidental huge docs / tiny spacing
+    while r <= r_outer + 1e-9 and bands < max_bands:
+        base = r
+        pts = []
+        for i in range(points + 1):
+            t = (2.0 * math.pi) * (i / points)
+            rr = base + amplitude * math.cos(lobes * t)
+            ang_deg = math.degrees(t)
+            x, y = polar(cx, cy, rr, ang_deg)
+            pts.append((x, y))
+
+        d = f"M {pts[0][0]:.6f},{pts[0][1]:.6f} " + " ".join([f"L {x:.6f},{y:.6f}" for x, y in pts[1:]])
+        p = new_path(d)
+        set_style(p, {
+            "fill": "none",
+            "stroke": stroke_color,
+            "stroke-width": str(stroke_w),
+            "stroke-opacity": str(opacity),
+            "stroke-linejoin": "round",
+        })
+        g.add(p) if hasattr(g, 'add') else g.append(p)
+
+        r += band_spacing
+        bands += 1
+
 
 class DialPatternGenerator(inkex.EffectExtension):
     def add_arguments(self, pars):
@@ -251,6 +289,10 @@ class DialPatternGenerator(inkex.EffectExtension):
         pars.add_argument("--lobes", type=int, default=12)
         pars.add_argument("--amplitude_mm", type=float, default=1.2)
         pars.add_argument("--points", type=int, default=1200)
+
+        # Guilloché field (filled)
+        pars.add_argument("--guilloche_fill", type=inkex.Boolean, default=False)
+        pars.add_argument("--band_spacing_mm", type=float, default=0.35)
 
         # Crosshatch
         pars.add_argument("--hatch_spacing_mm", type=float, default=0.7)
@@ -289,7 +331,11 @@ class DialPatternGenerator(inkex.EffectExtension):
             lobes = overrides.get("lobes", self.options.lobes)
             amp = overrides.get("amplitude", mm_to_uu(svg, self.options.amplitude_mm))
             pts = overrides.get("points", self.options.points)
-            pattern_guilloche(svg, layer_g, cx, cy, r_outer, lobes, amp, pts, stroke_w, stroke_color, opacity)
+            if bool(getattr(self.options, "guilloche_fill", False)):
+                bs = mm_to_uu(svg, float(getattr(self.options, "band_spacing_mm", 0.35)))
+                pattern_guilloche_field(svg, layer_g, cx, cy, r_outer, r_inner, lobes, amp, pts, stroke_w, stroke_color, opacity, bs)
+            else:
+                pattern_guilloche(svg, layer_g, cx, cy, r_outer, lobes, amp, pts, stroke_w, stroke_color, opacity)
 
     def effect(self):
         svg = self.document.getroot()
