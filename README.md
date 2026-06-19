@@ -2,61 +2,47 @@
 
 **Watch Dial Tools** is a small open-source toolkit of Inkscape extensions for designing real, production-ready mechanical watch dials.
 
-It provides three generators:
+I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM).
 
-- 🕒 **Watch Dial Generator** – hour markers, minute ticks, numbers or symbols (CSV driven)
-- 🎨 **Dial Pattern Generator** – guilloché, sunburst, concentric, crosshatch, and multi-layer “auto complex” textures
-- ⚙️ **Blank Dial / Movement Template Generator** – NH35, ST36 layout templates (holes, date window, feet, sub-dial)
+> **v2 note:** The three separate v1 extensions have been merged into a single unified extension (`watch_dial_tools`). The original files are preserved in `V1/` for reference.
 
-I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). 
-  
 ---
 
-## Features
+## Tools
 
-### Watch Dial Generator
-- Arabic, Roman (IV or IIII), or custom CSV labels
-- Emoji / symbol support (vector-safe fonts)
-- Date-window omission helper
-- Hour markers + minute ticks with alignment control
-- Precise millimeter sizing (document-unit aware)
-- Rotation modes (upright, tangent, radial, readable tangent)
+The extension opens as a single dialog. Each tab is a tool — click a tab, set its options, and click **Apply**. Everything is centered on the document center, so layers stack perfectly concentric.
 
-### Dial Pattern Generator
-- Pattern types:
-  - Guilloché (rosette)
-  - Concentric rings
-  - Sunburst
-  - Crosshatch
-- Stroke width / opacity control
-- Automatic circular clipping
-- **Auto-complex mode**:
-  - Multi-layer stacked patterns
-  - Presets: Breguet-ish, modern, pocketwatch, rosette stack
-  - Deterministic random seed
+| Tool | What it makes | Style |
+|------|---------------|-------|
+| **Dial** | Outline, center hole, hour markers, minute ticks, Arabic/Roman/custom numerals, fonts, orientation | foundation |
+| **Blank Template** | Movement layout (NH35/NH36, ST36): hand holes, date window, subdial, dial feet | foundation |
+| **Classic Patterns** | Guilloché (rosette / filled field), concentric rings, sunburst, crosshatch, plus multi-layer auto-complex engraving presets | old world |
+| **Rose Engine** | Rose-engine rosettes: sine, square (engine-turned), epicycloid, with multi-ring twist/taper | old world |
+| **Perlage** | Perlage / côtes spots: staggered, grid, spiral, radial-ring layouts | old world |
+| **Modern Patterns** | Mondrian blocks, 60s Op-Art waves, psychedelic spiral stripes, paper texture, linen weave | new world |
 
-### Blank Dial Generator
-- Movement presets:
-  - NH35 / NH36
-  - ST36 / 6497 style
-- Center hole
-- Hand holes
-- Date window
-- Sub-dial
-- Dial feet markers
-- Outline compensation
+---
+
+## Usage
+
+1. Open the extension: **Extensions → Watch Dial Tools**
+2. Click the tab for the tool you want and set its options
+3. Click **Apply** (or enable **Live preview**)
+4. The result is added to a named group on the current layer
+5. Switch tabs and Apply again to add more aligned layers on top
+
+Only the open tab's tool runs on each Apply.
+
+All generated elements remain fully editable in Inkscape.
 
 ---
 
 ## Requirements
 
-- Inkscape **1.1+** (1.2 / 1.3 recommended)
+- Inkscape **1.0+** (1.2 / 1.3 recommended)
 - Python (bundled with Inkscape)
 
-Works on:
-- Windows
-- macOS
-- Linux
+Works on Windows, macOS, and Linux.
 
 ---
 
@@ -70,20 +56,11 @@ Download or clone this repository:
 git clone https://github.com/brianjo/watch-dial-tools.git
 ```
 
-Or use GitHub’s **Download ZIP** button.
-
----
+Or use GitHub's **Download ZIP** button.
 
 ### 2. Locate your Inkscape user extensions folder
 
 #### Windows
-```
-C:\Users\<your-username>\AppData\Roaming\inkscape\extensions
-```
-
-Quick way:
-- Press `Win + R`
-- Paste:
 ```
 %APPDATA%\inkscape\extensions
 ```
@@ -98,28 +75,18 @@ Quick way:
 ~/.config/inkscape/extensions
 ```
 
----
-
 ### 3. Copy the extension files
 
-Copy all `.inx` and `.py` files into the extensions folder:
+Copy these two files into the extensions folder:
 
 ```
-watch_dial_generator.inx
-watch_dial_generator.py
-
-watch_dial_pattern_generator.inx
-watch_dial_pattern_generator.py
-
-watch_dial_blank_generator.inx
-watch_dial_blank_generator.py
+watch_dial_tools.inx
+watch_dial_tools.py
 ```
-
----
 
 ### 4. Restart Inkscape
 
-After restarting, you will find the tools here:
+After restarting, find the tools under:
 
 ```
 Extensions → Watch Dial Tools
@@ -127,15 +94,19 @@ Extensions → Watch Dial Tools
 
 ---
 
-## Usage
+## Font Picker
 
-Each tool opens as a dialog window with tabs:
+The *Font (installed)* dropdown in the Dial tool is baked into the `.inx` file from the machine where it was generated. To refresh it with fonts installed on your system, run the included `regen_fonts.py` script using the Python that ships with Inkscape — no extra packages needed:
 
-- Adjust parameters
-- Click **Apply**
-- A new grouped SVG layer is created at the document center
+```sh
+# Run from the folder containing watch_dial_tools.inx
+python3 regen_fonts.py    # macOS / Linux
+py regen_fonts.py         # Windows
+```
 
-All generated elements remain fully editable in Inkscape.
+Useful flags: `--dry-run` (list fonts, write nothing) and `--inx <path>` (point at a specific `.inx` file).
+
+The script reads font family names from your platform's standard font folders, rewrites only the font dropdown in `watch_dial_tools.inx`, and validates the result is still well-formed XML. It is safe to run repeatedly. Restart Inkscape after running it.
 
 ---
 
@@ -163,7 +134,8 @@ GNU General Public License v2 or later (GPL-2.0+)
 
 Copyright (C) 2026  
 Brian Johnson  
-https://github.com/brianjo  
+https://github.com/brianjo
+
 ---
 
 ## Contributing
@@ -188,4 +160,4 @@ Use at your own risk.
 
 ---
 
-Enjoy designing dials 🛠️⌚
+Enjoy designing dials ⌚

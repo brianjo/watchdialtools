@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <name>Watch Dial Tools</name>
+  <id>com.bjj.watchdial.tools</id>
+
+  <param name="ui" type="notebook">
+
+    <!-- Each tab below is one tool. Whatever tab is open when you click Apply
+         (or with Live preview enabled) is the tool that runs. No separate
+         selector: the open tab IS the active tool. Every tool centers on the
+         document center, so generated layers stack perfectly concentric. -->
+
+    <!-- ============================= DIAL ============================= -->
+    <page name="dial" gui-text="Dial">
+      <label appearance="header">Dial &#8212; outline, center, numerals, markers</label>
+      <label>Draws the dial outline, center hole, numerals, hour markers and
+minute ticks. Set options below, then click Apply (this tab runs the Dial tool).</label>
+      <separator/>
+      <hbox>
+      <vbox>
+      <label appearance="header">Outline &amp; center</label>
+      <param name="wd_dial_diameter_mm" type="float" min="10" max="60" precision="2" gui-text="Dial diameter (mm)">28.5</param>
+      <param name="wd_draw_dial_outline" type="bool" gui-text="Draw dial outline">true</param>
+      <param name="wd_dial_outline_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Outline stroke (mm)">0.12</param>
+      <param name="wd_outline_compensate_stroke" type="bool" gui-text="Compensate outline for stroke (keeps outer diameter exact)">true</param>
+      <separator/>
+      <param name="wd_draw_center_hole" type="bool" gui-text="Draw center hole">true</param>
+      <param name="wd_center_hole_mm" type="float" min="0.1" max="10" precision="2" gui-text="Center hole diameter (mm)">1.5</param>
+      <separator/>
+      <param name="wd_start_angle_deg" type="float" min="-360" max="360" precision="2" gui-text="Start angle (deg, 0=12 o'clock)">0</param>
+      <param name="wd_clockwise" type="bool" gui-text="Clockwise">true</param>
+      <param name="wd_group_name" type="string" gui-text="Output group name">watch-dial</param>
+      <separator/>
+      <label appearance="header">Numerals</label>
+      <param name="wd_text_mode" type="optiongroup" appearance="combo" gui-text="Text mode">
+        <option value="arabic">Arabic (1&#8211;12)</option>
+        <option value="roman">Roman (I&#8211;XII)</option>
+        <option value="custom">Custom (CSV)</option>
+      </param>
+      <param name="wd_labels_csv" type="string" gui-text="Custom labels (CSV)"></param>
+      <param name="wd_roman_four_style" type="optiongroup" appearance="combo" gui-text="Roman 4 style">
+        <option value="IV">IV</option>
+        <option value="IIII">IIII</option>
+      </param>
+      <param name="wd_omit_three" type="bool" gui-text="Omit 3 for date window">false</param>
+      <separator/>
+      <param name="wd_text_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Text radius (mm)">11.5</param>
+      <param name="wd_text_radial_offset_mm" type="float" min="-10" max="10" precision="2" gui-text="Text radial offset (mm)">0</param>
+      <param name="wd_text_angle_offset_deg" type="float" min="-30" max="30" precision="2" gui-text="Text angle offset (deg)">0</param>
+      </vbox>
+      <spacer/>
+      <vbox>
+      <label appearance="header">Font</label>
+      <param name="wd_font_preset" type="optiongroup" appearance="combo" gui-text="Font (installed)">
+        <option value="Agency FB">Agency FB</option>
+        <option value="Algerian">Algerian</option>
+        <option value="AlienCaret">AlienCaret</option>
+        <option value="Anton">Anton</option>
+        <option value="Arial">Arial</option>
+        <option value="Arial Black">Arial Black</option>
+        <option value="Arial Narrow">Arial Narrow</option>
+        <option value="Arial Rounded MT Bold">Arial Rounded MT Bold</option>
+        <option value="Bahnschrift">Bahnschrift</option>
+        <option value="Barlow Condensed">Barlow Condensed</option>
+        <option value="Barlow Condensed Black">Barlow Condensed Black</option>
+        <option value="Barlow Condensed ExtraBold">Barlow Condensed ExtraBold</option>
+        <option value="Barlow Condensed ExtraLight">Barlow Condensed ExtraLight</option>
+        <option value="Barlow Condensed Light">Barlow Condensed Light</option>
+        <option value="Barlow Condensed Medium">Barlow Condensed Medium</option>
+        <option value="Barlow Condensed SemiBold">Barlow Condensed SemiBold</option>
+        <option value="Barlow Condensed Thin">Barlow Condensed Thin</option>
+        <option value="Baskerville Old Face">Baskerville Old Face</option>
+        <option value="Bauhaus 93">Bauhaus 93</option>
+        <option value="Bell MT">Bell MT</option>
+        <option value="Berlin Sans FB">Berlin Sans FB</option>
+        <option value="Berlin Sans FB Demi">Berlin Sans FB Demi</option>
+        <option value="Bernard MT Condensed">Bernard MT Condensed</option>
+        <option value="Blackadder ITC">Blackadder ITC</option>
+        <option value="Bodoni MT">Bodoni MT</option>
+        <option value="Bodoni MT Black">Bodoni MT Black</option>
+        <option value="Bodoni MT Condensed">Bodoni MT Condensed</option>
+        <option value="Bodoni MT Poster Compressed">Bodoni MT Poster Compressed</option>
+        <option value="Book Antiqua">Book Antiqua</option>
+        <option value="Bookman Old Style">Bookman Old Style</option>
+        <option value="Bookshelf Symbol 7">Bookshelf Symbol 7</option>
+        <option value="Bradley Hand ITC">Bradley Hand ITC</option>
+        <option value="Britannic Bold">Britannic Bold</option>
+        <option value="Broadway">Broadway</option>
+        <option value="Brush Script MT">Brush Script MT</option>
+        <option value="Calibri">Calibri</option>
+        <option value="Calibri Light">Calibri Light</option>
+        <option value="Californian FB">Californian FB</option>
+        <option value="Calisto MT">Calisto MT</option>
+        <option value="Cambria">Cambria</option>
+        <option value="Cambria Math">Cambria Math</option>
+        <option value="Candara">Candara</option>
+        <option value="Candara Light">Candara Light</option>
+        <option value="Cascadia Code">Cascadia Code</option>
+        <option value="Cascadia Mono">Cascadia Mono</option>
+        <option value="Castellar">Castellar</option>
+        <option value="Caudex">Caudex</option>
+        <option value="Centaur">Centaur</option>
+        <option value="Century">Century</option>
+        <option value="Century Gothic">Century Gothic</option>
+        <option value="Century Schoolbook">Century Schoolbook</option>
+        <option value="Chiller">Chiller</option>
+        <option value="Colonna MT">Colonna MT</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+        <option value="Concert One">Concert One</option>
+        <option value="Consolas">Consolas</option>
+        <option value="Constantia">Constantia</option>
+        <option value="Cooper Black">Cooper Black</option>
+        <option value="Copperplate Gothic Bold">Copperplate Gothic Bold</option>
+        <option value="Copperplate Gothic Light">Copperplate Gothic Light</option>
+        <option value="Corbel">Corbel</option>
+        <option value="Corbel Light">Corbel Light</option>
+        <option value="Cormorant Garamond">Cormorant Garamond</option>
+        <option value="Cormorant Garamond Light">Cormorant Garamond Light</option>
+        <option value="Cormorant Garamond Medium">Cormorant Garamond Medium</option>
+        <option value="Cormorant Garamond SemiBold">Cormorant Garamond SemiBold</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Curlz MT">Curlz MT</option>
+        <option value="Dubai">Dubai</option>
+        <option value="Dubai Light">Dubai Light</option>
+        <option value="Dubai Medium">Dubai Medium</option>
+        <option value="Ebrima">Ebrima</option>
+        <option value="Edwardian Script ITC">Edwardian Script ITC</option>
+        <option value="Elephant">Elephant</option>
+        <option value="Engravers MT">Engravers MT</option>
+        <option value="Eras Bold ITC">Eras Bold ITC</option>
+        <option value="Eras Demi ITC">Eras Demi ITC</option>
+        <option value="Eras Light ITC">Eras Light ITC</option>
+        <option value="Eras Medium ITC">Eras Medium ITC</option>
+        <option value="Felix Titling">Felix Titling</option>
+        <option value="Footlight MT Light">Footlight MT Light</option>
+        <option value="Forte">Forte</option>
+        <option value="Franklin Gothic Book">Franklin Gothic Book</option>
+        <option value="Franklin Gothic Demi">Franklin Gothic Demi</option>
+        <option value="Franklin Gothic Demi Cond">Franklin Gothic Demi Cond</option>
+        <option value="Franklin Gothic Heavy">Franklin Gothic Heavy</option>
+        <option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
+        <option value="Franklin Gothic Medium Cond">Franklin Gothic Medium Cond</option>
+        <option value="Freestyle Script">Freestyle Script</option>
+        <option value="French Script MT">French Script MT</option>
+        <option value="Gabriola">Gabriola</option>
+        <option value="Gadugi">Gadugi</option>
+        <option value="Garamond">Garamond</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Gigi">Gigi</option>
+        <option value="Gill Sans MT">Gill Sans MT</option>
+        <option value="Gill Sans MT Condensed">Gill Sans MT Condensed</option>
+        <option value="Gill Sans MT Ext Condensed Bold">Gill Sans MT Ext Condensed Bold</option>
+        <option value="Gill Sans Ultra Bold">Gill Sans Ultra Bold</option>
+        <option value="Gill Sans Ultra Bold Condensed">Gill Sans Ultra Bold Condensed</option>
+        <option value="Gloucester MT Extra Condensed">Gloucester MT Extra Condensed</option>
+        <option value="Goudy Old Style">Goudy Old Style</option>
+        <option value="Goudy Stout">Goudy Stout</option>
+        <option value="Haettenschweiler">Haettenschweiler</option>
+        <option value="Harlow Solid Italic">Harlow Solid Italic</option>
+        <option value="HarmonyOS Sans SC">HarmonyOS Sans SC</option>
+        <option value="Harrington">Harrington</option>
+        <option value="High Tower Text">High Tower Text</option>
+        <option value="Impact">Impact</option>
+        <option value="Imprint MT Shadow">Imprint MT Shadow</option>
+        <option value="Informal Roman">Informal Roman</option>
+        <option value="Ink Free">Ink Free</option>
+        <option value="Javanese Text">Javanese Text</option>
+        <option value="Jokerman">Jokerman</option>
+        <option value="Juice ITC">Juice ITC</option>
+        <option value="Kristen ITC">Kristen ITC</option>
+        <option value="Kunstler Script">Kunstler Script</option>
+        <option value="Leelawadee UI">Leelawadee UI</option>
+        <option value="Leelawadee UI Semilight">Leelawadee UI Semilight</option>
+        <option value="Lucida Bright">Lucida Bright</option>
+        <option value="Lucida Calligraphy">Lucida Calligraphy</option>
+        <option value="Lucida Console">Lucida Console</option>
+        <option value="Lucida Fax">Lucida Fax</option>
+        <option value="Lucida Handwriting">Lucida Handwriting</option>
+        <option value="Lucida Sans">Lucida Sans</option>
+        <option value="Lucida Sans Typewriter">Lucida Sans Typewriter</option>
+        <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+        <option value="Magneto">Magneto</option>
+        <option value="Maiandra GD">Maiandra GD</option>
+        <option value="Malgun Gothic">Malgun Gothic</option>
+        <option value="Malgun Gothic Semilight">Malgun Gothic Semilight</option>
+        <option value="Marcellus">Marcellus</option>
+        <option value="Marlett">Marlett</option>
+        <option value="Matura MT Script Capitals">Matura MT Script Capitals</option>
+        <option value="Microsoft Himalaya">Microsoft Himalaya</option>
+        <option value="Microsoft JhengHei">Microsoft JhengHei</option>
+        <option value="Microsoft JhengHei Light">Microsoft JhengHei Light</option>
+        <option value="Microsoft JhengHei UI">Microsoft JhengHei UI</option>
+        <option value="Microsoft JhengHei UI Light">Microsoft JhengHei UI Light</option>
+        <option value="Microsoft New Tai Lue">Microsoft New Tai Lue</option>
+        <option value="Microsoft PhagsPa">Microsoft PhagsPa</option>
+        <option value="Microsoft Sans Serif">Microsoft Sans Serif</option>
+        <option value="Microsoft Tai Le">Microsoft Tai Le</option>
+        <option value="Microsoft YaHei">Microsoft YaHei</option>
+        <option value="Microsoft YaHei Light">Microsoft YaHei Light</option>
+        <option value="Microsoft YaHei UI">Microsoft YaHei UI</option>
+        <option value="Microsoft YaHei UI Light">Microsoft YaHei UI Light</option>
+        <option value="Microsoft Yi Baiti">Microsoft Yi Baiti</option>
+        <option value="MingLiU-ExtB">MingLiU-ExtB</option>
+        <option value="MingLiU_HKSCS-ExtB">MingLiU_HKSCS-ExtB</option>
+        <option value="MingLiU_MSCS-ExtB">MingLiU_MSCS-ExtB</option>
+        <option value="Mistral">Mistral</option>
+        <option value="Modern No. 20">Modern No. 20</option>
+        <option value="Mongolian Baiti">Mongolian Baiti</option>
+        <option value="Monotype Corsiva">Monotype Corsiva</option>
+        <option value="MS Gothic">MS Gothic</option>
+        <option value="MS Outlook">MS Outlook</option>
+        <option value="MS PGothic">MS PGothic</option>
+        <option value="MS Reference Sans Serif">MS Reference Sans Serif</option>
+        <option value="MS Reference Specialty">MS Reference Specialty</option>
+        <option value="MS UI Gothic">MS UI Gothic</option>
+        <option value="MT Extra">MT Extra</option>
+        <option value="MV Boli">MV Boli</option>
+        <option value="Myanmar Text">Myanmar Text</option>
+        <option value="NanumGothic">NanumGothic</option>
+        <option value="Niagara Engraved">Niagara Engraved</option>
+        <option value="Niagara Solid">Niagara Solid</option>
+        <option value="Nirmala Text">Nirmala Text</option>
+        <option value="Nirmala Text Semilight">Nirmala Text Semilight</option>
+        <option value="Nirmala UI">Nirmala UI</option>
+        <option value="Nirmala UI Semilight">Nirmala UI Semilight</option>
+        <option value="Noto Sans">Noto Sans</option>
+        <option value="NSimSun">NSimSun</option>
+        <option value="OCR A Extended">OCR A Extended</option>
+        <option value="Old English Text MT">Old English Text MT</option>
+        <option value="Onyx">Onyx</option>
+        <option value="Palace Script MT">Palace Script MT</option>
+        <option value="Palatino Linotype">Palatino Linotype</option>
+        <option value="Papyrus">Papyrus</option>
+        <option value="Parchment">Parchment</option>
+        <option value="Perpetua">Perpetua</option>
+        <option value="Perpetua Titling MT">Perpetua Titling MT</option>
+        <option value="Playbill">Playbill</option>
+        <option value="PMingLiU-ExtB">PMingLiU-ExtB</option>
+        <option value="Poor Richard">Poor Richard</option>
+        <option value="Pristina">Pristina</option>
+        <option value="Rage Italic">Rage Italic</option>
+        <option value="Ravie">Ravie</option>
+        <option value="Rockwell">Rockwell</option>
+        <option value="Rockwell Condensed">Rockwell Condensed</option>
+        <option value="Rockwell Extra Bold">Rockwell Extra Bold</option>
+        <option value="Sans Serif Collection">Sans Serif Collection</option>
+        <option value="Script MT Bold">Script MT Bold</option>
+        <option value="Segoe Fluent Icons">Segoe Fluent Icons</option>
+        <option value="Segoe MDL2 Assets">Segoe MDL2 Assets</option>
+        <option value="Segoe Print">Segoe Print</option>
+        <option value="Segoe Script">Segoe Script</option>
+        <option value="Segoe UI">Segoe UI</option>
+        <option value="Segoe UI Black">Segoe UI Black</option>
+        <option value="Segoe UI Emoji">Segoe UI Emoji</option>
+        <option value="Segoe UI Historic">Segoe UI Historic</option>
+        <option value="Segoe UI Light">Segoe UI Light</option>
+        <option value="Segoe UI Semibold">Segoe UI Semibold</option>
+        <option value="Segoe UI Semilight">Segoe UI Semilight</option>
+        <option value="Segoe UI Symbol">Segoe UI Symbol</option>
+        <option value="Segoe UI Variable">Segoe UI Variable</option>
+        <option value="Showcard Gothic">Showcard Gothic</option>
+        <option value="SimSun">SimSun</option>
+        <option value="SimSun-ExtB">SimSun-ExtB</option>
+        <option value="SimSun-ExtG">SimSun-ExtG</option>
+        <option value="Sitka">Sitka</option>
+        <option value="Sitka Text">Sitka Text</option>
+        <option value="Snap ITC">Snap ITC</option>
+        <option value="Source Han Sans JP">Source Han Sans JP</option>
+        <option value="Source Han Sans JP Normal">Source Han Sans JP Normal</option>
+        <option value="Stencil">Stencil</option>
+        <option value="Sylfaen">Sylfaen</option>
+        <option value="Symbol">Symbol</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Tempus Sans ITC">Tempus Sans ITC</option>
+        <option value="Times New Roman" default="true">Times New Roman</option>
+        <option value="Trebuchet MS">Trebuchet MS</option>
+        <option value="Tw Cen MT">Tw Cen MT</option>
+        <option value="Tw Cen MT Condensed">Tw Cen MT Condensed</option>
+        <option value="Tw Cen MT Condensed Extra Bold">Tw Cen MT Condensed Extra Bold</option>
+        <option value="Verdana">Verdana</option>
+        <option value="Viner Hand ITC">Viner Hand ITC</option>
+        <option value="Vivaldi">Vivaldi</option>
+        <option value="Vladimir Script">Vladimir Script</option>
+        <option value="Waltograph">Waltograph</option>
+        <option value="Waltograph UI">Waltograph UI</option>
+        <option value="Webdings">Webdings</option>
+        <option value="Wide Latin">Wide Latin</option>
+        <option value="Wingdings">Wingdings</option>
+        <option value="Wingdings 2">Wingdings 2</option>
+        <option value="Wingdings 3">Wingdings 3</option>
+        <option value="Yu Gothic">Yu Gothic</option>
+        <option value="Yu Gothic Light">Yu Gothic Light</option>
+        <option value="Yu Gothic Medium">Yu Gothic Medium</option>
+        <option value="Yu Gothic UI">Yu Gothic UI</option>
+        <option value="Yu Gothic UI Light">Yu Gothic UI Light</option>
+        <option value="Yu Gothic UI Semibold">Yu Gothic UI Semibold</option>
+        <option value="Yu Gothic UI Semilight">Yu Gothic UI Semilight</option>
+        <option value="Custom">Custom (type below)</option>
+      </param>
+      <param name="wd_font_custom" type="string" gui-text="Custom font family (exact name)"> </param>
+      <param name="wd_font_size_mm" type="float" min="0.2" max="10" precision="2" gui-text="Font size (mm)">2.6</param>
+      <param name="wd_text_baseline" type="optiongroup" appearance="combo" gui-text="Text baseline">
+        <option value="optical" default="true">optical center (best for numbers)</option>
+        <option value="central">central</option>
+        <option value="middle">middle</option>
+        <option value="alphabetic">alphabetic</option>
+        <option value="hanging">hanging</option>
+      </param>
+      <param name="wd_number_orientation" type="optiongroup" appearance="combo" gui-text="Number orientation">
+        <option value="upright">upright</option>
+        <option value="tangent">tangent</option>
+        <option value="radial">radial</option>
+        <option value="tangent_readable">tangent_readable</option>
+      </param>
+      <separator/>
+      <label appearance="header">Hour markers &amp; minute ticks</label>
+      <param name="wd_show_hour_markers" type="bool" gui-text="Show hour markers">true</param>
+      <param name="wd_hour_marker_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Hour marker radius (mm)">12.8</param>
+      <param name="wd_hour_marker_w_mm" type="float" min="0.01" max="10" precision="2" gui-text="Hour marker width (mm)">0.7</param>
+      <param name="wd_hour_marker_h_mm" type="float" min="0.01" max="20" precision="2" gui-text="Hour marker height (mm)">1.8</param>
+      <param name="wd_hour_marker_align" type="optiongroup" appearance="combo" gui-text="Hour marker align">
+        <option value="outer">outer</option>
+        <option value="center">center</option>
+        <option value="inner">inner</option>
+      </param>
+      <separator/>
+      <param name="wd_show_minute_ticks" type="bool" gui-text="Show minute ticks">true</param>
+      <param name="wd_minute_tick_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Minute tick radius (mm)">13.6</param>
+      <param name="wd_minute_tick_w_mm" type="float" min="0.01" max="10" precision="2" gui-text="Minute tick width (mm)">0.25</param>
+      <param name="wd_minute_tick_h_mm" type="float" min="0.01" max="20" precision="2" gui-text="Minute tick height (mm)">1.0</param>
+      <param name="wd_five_minute_scale" type="float" min="1" max="10" precision="2" gui-text="5-minute tick scale">1.7</param>
+      <param name="wd_minute_tick_align" type="optiongroup" appearance="combo" gui-text="Minute tick align">
+        <option value="outer">outer</option>
+        <option value="center">center</option>
+        <option value="inner">inner</option>
+      </param>
+      </vbox>
+      </hbox>
+    </page>
+
+    <!-- ========================= BLANK TEMPLATE ========================= -->
+    <page name="blank" gui-text="Blank Template">
+      <label appearance="header">Movement template (tool: Blank Template)</label>
+      <param name="bk_movement_preset" type="optiongroup" appearance="combo" gui-text="Movement preset">
+        <option value="nh35">Seiko NH35 / NH36</option>
+        <option value="st36">Seagull ST36 / ST3600</option>
+        <option value="custom">Custom (no template geometry)</option>
+      </param>
+      <separator/>
+      <param name="bk_draw_outline" type="bool" gui-text="Draw outline">true</param>
+      <param name="bk_outline_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Outline stroke (mm)">0.12</param>
+      <param name="bk_compensate_outline" type="bool" gui-text="Compensate outline">true</param>
+      <separator/>
+      <param name="bk_draw_center_hole" type="bool" gui-text="Draw center hole">true</param>
+      <param name="bk_draw_hand_holes" type="bool" gui-text="Draw hand holes">true</param>
+      <param name="bk_draw_date_window" type="bool" gui-text="Draw date window (NH35)">true</param>
+      <param name="bk_draw_subdial" type="bool" gui-text="Draw small seconds (ST36)">true</param>
+      <param name="bk_draw_dial_feet" type="bool" gui-text="Draw dial feet (reference)">true</param>
+      <separator/>
+      <param name="bk_group_name" type="string" gui-text="Output group name">dial-template</param>
+    </page>
+
+    <!-- ========================= CLASSIC PATTERNS ========================= -->
+    <page name="classic" gui-text="Classic Patterns">
+      <label appearance="header">Classic / old-world patterns</label>
+      <label>Guilloch&#233;, concentric rings, sunburst, crosshatch, plus multi-layer
+auto-complex engraving. Set options below, then click Apply.</label>
+      <separator/>
+      <hbox>
+      <vbox>
+      <label appearance="header">Base</label>
+      <param name="cp_dial_diameter_mm" type="float" min="10" max="60" precision="2" gui-text="Dial diameter (mm)">28.5</param>
+      <param name="cp_draw_outline" type="bool" gui-text="Draw outline">true</param>
+      <param name="cp_outline_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Outline stroke (mm)">0.12</param>
+      <param name="cp_outline_compensate_stroke" type="bool" gui-text="Compensate outline for stroke">true</param>
+      <separator/>
+      <param name="cp_clip_to_circle" type="bool" gui-text="Clip pattern to circle">true</param>
+      <param name="cp_inner_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Inner radius (mm)">0.0</param>
+      <separator/>
+      <param name="cp_pattern_type" type="optiongroup" appearance="combo" gui-text="Pattern type">
+        <option value="guilloche">Guilloch&#233; (rosette)</option>
+        <option value="concentric">Concentric rings</option>
+        <option value="sunburst">Sunburst</option>
+        <option value="crosshatch">Crosshatch</option>
+      </param>
+      <param name="cp_stroke_mm" type="float" min="0.01" max="2" precision="2" gui-text="Stroke width (mm)">0.10</param>
+      <param name="cp_stroke_color" type="string" gui-text="Stroke color (hex)">#000000</param>
+      <param name="cp_stroke_opacity" type="float" min="0.0" max="1.0" precision="2" gui-text="Stroke opacity">0.35</param>
+      <param name="cp_group_name" type="string" gui-text="Output group name">dial-pattern</param>
+      <separator/>
+      <label appearance="header">Guilloch&#233;</label>
+      <param name="cp_lobes" type="int" min="2" max="200" gui-text="Lobes">12</param>
+      <param name="cp_amplitude_mm" type="float" min="0" max="10" precision="2" gui-text="Amplitude (mm)">1.2</param>
+      <param name="cp_points" type="int" min="200" max="20000" gui-text="Points (smoother = more)">1200</param>
+      <param name="cp_guilloche_fill" type="bool" gui-text="Fill dial (guilloch&#233; field)">false</param>
+      <param name="cp_band_spacing_mm" type="float" min="0.05" max="2" precision="2" gui-text="Band spacing (mm) (smaller = denser)">0.35</param>
+      </vbox>
+      <spacer/>
+      <vbox>
+      <label appearance="header">Concentric / Sunburst / Crosshatch</label>
+      <param name="cp_ring_spacing_mm" type="float" min="0.05" max="5" precision="2" gui-text="Concentric ring spacing (mm)">0.6</param>
+      <param name="cp_rays" type="int" min="4" max="2000" gui-text="Sunburst rays">120</param>
+      <param name="cp_hatch_spacing_mm" type="float" min="0.05" max="5" precision="2" gui-text="Hatch spacing (mm)">0.7</param>
+      <param name="cp_hatch_angle_deg" type="float" min="-90" max="90" precision="1" gui-text="Hatch angle (deg)">35.0</param>
+      <param name="cp_hatch_double" type="bool" gui-text="Double hatch (adds 90&#176; cross)">true</param>
+      <separator/>
+      <label appearance="header">Auto complex (multi-layer engraving)</label>
+      <param name="cp_auto_complex" type="bool" gui-text="Auto complex (multi-layer)">false</param>
+      <param name="cp_complex_preset" type="optiongroup" appearance="combo" gui-text="Preset">
+        <option value="rosette_stack">Rosette stack</option>
+        <option value="breguet">Breguet-ish</option>
+        <option value="modern">Modern</option>
+        <option value="pocketwatch">Pocketwatch</option>
+      </param>
+      <param name="cp_layers" type="int" min="1" max="20" gui-text="Layers">4</param>
+      <param name="cp_seed" type="int" min="0" max="999999" gui-text="Seed">1</param>
+      <separator/>
+      <param name="cp_rotate_jitter_deg" type="float" min="0" max="45" precision="2" gui-text="Rotation jitter (deg)">6.0</param>
+      <param name="cp_opacity_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Opacity decay (per layer)">0.75</param>
+      <param name="cp_stroke_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Stroke decay (per layer)">0.85</param>
+      <param name="cp_lobe_jitter" type="int" min="0" max="100" gui-text="Lobe jitter">10</param>
+      <param name="cp_amp_decay" type="float" min="0.1" max="1.0" precision="2" gui-text="Amplitude decay (per layer)">0.70</param>
+      </vbox>
+      </hbox>
+    </page>
+
+    <!-- ========================= ROSE ENGINE ========================= -->
+    <page name="rose" gui-text="Rose Engine">
+      <label appearance="header">Rose engine simulator (tool: Rose Engine)</label>
+      <param name="re_preset_mode" type="optiongroup" appearance="combo" gui-text="Quick preset">
+        <option value="custom">Use settings below (Custom)</option>
+        <option value="default_25">Reset to Default (Rose)</option>
+        <option value="small_cog">Small 10mm Cog</option>
+      </param>
+      <param name="re_preset" type="optiongroup" appearance="combo" gui-text="Wave shape">
+        <option value="sine">Sine (Rosette)</option>
+        <option value="square">Square (Engine Turned)</option>
+        <option value="epicycloid">Epicycloid (Guilloch&#233;)</option>
+      </param>
+      <param name="re_lobes" type="int" min="1" max="200" gui-text="Lobes">18</param>
+      <param name="re_amplitude" type="float" min="0.01" max="50.0" precision="2" gui-text="Wave depth (mm)">1.2</param>
+      <param name="re_radius" type="float" min="0.1" max="500.0" precision="2" gui-text="Outer radius (mm)">12.5</param>
+      <separator/>
+      <label appearance="header">Multi-ring</label>
+      <param name="re_multiply" type="bool" gui-text="Enable multi-ring">true</param>
+      <param name="re_copies" type="int" min="1" max="100" gui-text="Rings">15</param>
+      <param name="re_spacing" type="float" min="0.01" max="10.0" precision="2" gui-text="Inward spacing (mm)">0.4</param>
+      <param name="re_twist" type="float" min="-45.0" max="45.0" precision="2" gui-text="Twist per ring (deg)">1.0</param>
+      <param name="re_softness" type="float" min="0.01" max="1.0" precision="2" gui-text="Tool softness (square)">0.1</param>
+      <param name="re_taper" type="float" min="0.0" max="1.0" precision="2" gui-text="Inward taper (0=None, 1=Full; 0=true rosette)">0.0</param>
+      <param name="re_group_name" type="string" gui-text="Output group name">rose-engine</param>
+    </page>
+
+    <!-- ========================= PERLAGE ========================= -->
+    <page name="perlage" gui-text="Perlage">
+      <label appearance="header">Perlage / spots (tool: Perlage)</label>
+      <param name="pg_pattern" type="optiongroup" appearance="combo" gui-text="Pattern type">
+        <option value="staggered">Staggered grid</option>
+        <option value="grid">Grid</option>
+        <option value="spiral">Spiral</option>
+        <option value="radial">Radial rings</option>
+      </param>
+      <param name="pg_outer_diameter" type="float" min="0.1" max="5000" precision="3" gui-text="Outer pattern diameter (mm)">29.0</param>
+      <param name="pg_center_hole_diameter" type="float" min="0.0" max="5000" precision="3" gui-text="Center exclusion diameter (mm)">0.0</param>
+      <param name="pg_spot_diameter" type="float" min="0.01" max="100" precision="3" gui-text="Visual spot diameter (mm)">0.35</param>
+      <param name="pg_spacing_x" type="float" min="0.01" max="100" precision="3" gui-text="Spacing X (mm)">0.75</param>
+      <param name="pg_spacing_y" type="float" min="0.01" max="100" precision="3" gui-text="Spacing Y (mm)">0.75</param>
+      <param name="pg_rotation_deg" type="float" min="-360" max="360" precision="2" gui-text="Rotation (degrees)">0.0</param>
+      <separator/>
+      <label appearance="header">Variation</label>
+      <param name="pg_jitter_xy" type="float" min="0.0" max="10.0" precision="3" gui-text="XY jitter (mm)">0.0</param>
+      <param name="pg_skip_percent" type="float" min="0.0" max="100.0" precision="2" gui-text="Skip percent">0.0</param>
+      <param name="pg_seed" type="int" min="0" max="999999" gui-text="Random seed">7</param>
+      <separator/>
+      <label appearance="header">Guides</label>
+      <param name="pg_draw_guides" type="bool" gui-text="Draw guide circles">true</param>
+      <param name="pg_guide_stroke_width" type="float" min="0.01" max="10" precision="3" gui-text="Guide stroke width (mm)">0.05</param>
+      <param name="pg_group_name" type="string" gui-text="Output group name">perlage</param>
+    </page>
+
+    <!-- ========================= MODERN PATTERNS ========================= -->
+    <page name="modern" gui-text="Modern Patterns">
+      <label appearance="header">Modern / new-world patterns</label>
+      <label>Mondrian blocks, 60s op-art waves, spiral stripes, paper and linen
+textures. Set options below, then click Apply.</label>
+      <separator/>
+      <hbox>
+      <vbox>
+      <label appearance="header">Base</label>
+      <hbox>
+        <param name="mp_dial_diameter_mm" type="float" min="10" max="60" precision="2" gui-text="Dial diameter (mm)">28.50</param>
+        <param name="mp_inner_radius_mm" type="float" min="0" max="30" precision="2" gui-text="Inner radius (mm)">0.00</param>
+      </hbox>
+      <hbox>
+        <param name="mp_clip_to_circle" type="bool" gui-text="Clip to dial circle">true</param>
+        <param name="mp_draw_outline" type="bool" gui-text="Draw outline">false</param>
+      </hbox>
+      <param name="mp_outline_stroke_mm" type="float" min="0.01" max="2" precision="3" gui-text="Outline stroke (mm)">0.12</param>
+      <separator/>
+      <param name="mp_pattern_type" type="optiongroup" appearance="combo" gui-text="Pattern">
+        <option value="mondrian">Mondrian Blocks</option>
+        <option value="op_waves">60s Op Art Waves</option>
+        <option value="spiral_stripes">Psychedelic Spiral Stripes</option>
+        <option value="paper_texture">Paper Texture</option>
+        <option value="linen_texture">Linen Texture</option>
+      </param>
+      <param name="mp_seed" type="int" min="0" max="999999" gui-text="Seed">1</param>
+      <separator/>
+      <label appearance="header">Stroke (Op Art + Spiral)</label>
+      <hbox>
+        <param name="mp_stroke_mm" type="float" min="0.01" max="2" precision="3" gui-text="Stroke width (mm)">0.10</param>
+        <param name="mp_stroke_opacity" type="float" min="0" max="1" precision="3" gui-text="Stroke opacity">0.35</param>
+      </hbox>
+      <param name="mp_stroke_color" type="string" gui-text="Stroke color (hex)">#000000</param>
+      <param name="mp_group_name" type="string" gui-text="Output group name">modern-dial-pattern</param>
+      <separator/>
+      <label appearance="header">Mondrian</label>
+      <hbox>
+        <param name="mp_mondrian_density" type="float" min="0.15" max="1.50" precision="2" gui-text="Density">0.60</param>
+        <param name="mp_mondrian_line_mm" type="float" min="0.05" max="2.00" precision="3" gui-text="Grid line width (mm)">0.35</param>
+      </hbox>
+      <hbox>
+        <param name="mp_mondrian_palette" type="optiongroup" appearance="combo" gui-text="Palette">
+          <option value="classic">Classic (primary + white)</option>
+          <option value="pastel">Pastel</option>
+          <option value="vibrant">Vibrant</option>
+        </param>
+        <param name="mp_mondrian_fill_opacity" type="float" min="0" max="1" precision="2" gui-text="Fill opacity">1.00</param>
+      </hbox>
+      <separator/>
+      <label appearance="header">60s Op Art</label>
+      <hbox>
+        <param name="mp_op_line_spacing_mm" type="float" min="0.08" max="2.00" precision="3" gui-text="Line spacing (mm)">0.35</param>
+        <param name="mp_op_warp_strength_mm" type="float" min="0.00" max="5.00" precision="3" gui-text="Warp strength (mm)">0.70</param>
+      </hbox>
+      <hbox>
+        <param name="mp_op_warp_frequency" type="float" min="0.50" max="20.00" precision="2" gui-text="Warp frequency">6.00</param>
+        <param name="mp_op_rotate_deg" type="float" min="-180" max="180" precision="1" gui-text="Rotate (deg)">0.0</param>
+      </hbox>
+      </vbox>
+      <spacer/>
+      <vbox>
+      <label appearance="header">Spiral</label>
+      <hbox>
+        <param name="mp_spiral_turns" type="float" min="0.5" max="30" precision="2" gui-text="Turns">5.00</param>
+        <param name="mp_spiral_stripe_width_mm" type="float" min="0.05" max="2.00" precision="3" gui-text="Stripe width (mm)">0.35</param>
+      </hbox>
+      <separator/>
+      <label appearance="header">Paper texture</label>
+      <hbox>
+        <param name="mp_paper_speckle_density" type="float" min="0" max="80" precision="1" gui-text="Speckle density">18.0</param>
+        <param name="mp_paper_speckle_radius_mm" type="float" min="0.01" max="0.30" precision="3" gui-text="Speckle radius (mm)">0.060</param>
+      </hbox>
+      <hbox>
+        <param name="mp_paper_fiber_count" type="int" min="0" max="6000" gui-text="Fiber count">1200</param>
+        <param name="mp_paper_fiber_length_mm" type="float" min="0.05" max="3.00" precision="2" gui-text="Fiber length (mm)">0.55</param>
+      </hbox>
+      <hbox>
+        <param name="mp_paper_fiber_jitter_mm" type="float" min="0.00" max="1.00" precision="2" gui-text="Fiber jitter (mm)">0.12</param>
+        <param name="mp_paper_opacity" type="float" min="0" max="1" precision="3" gui-text="Opacity">0.10</param>
+      </hbox>
+      <param name="mp_paper_color" type="string" gui-text="Ink color (hex)">#000000</param>
+      <separator/>
+      <label appearance="header">Linen / weave texture</label>
+      <hbox>
+        <param name="mp_linen_thread_spacing_mm" type="float" min="0.05" max="2.00" precision="2" gui-text="Thread spacing (mm)">0.35</param>
+        <param name="mp_linen_waviness_mm" type="float" min="0.00" max="1.50" precision="2" gui-text="Waviness (mm)">0.10</param>
+      </hbox>
+      <hbox>
+        <param name="mp_linen_waviness_freq" type="float" min="0.5" max="30" precision="1" gui-text="Waviness frequency">7.0</param>
+        <param name="mp_linen_rotate_deg" type="float" min="-180" max="180" precision="1" gui-text="Rotate (deg)">0.0</param>
+      </hbox>
+      <param name="mp_linen_color" type="string" gui-text="Ink color (hex)">#000000</param>
+      <param name="mp_linen_opacity" type="float" min="0" max="1" precision="3" gui-text="Opacity">0.18</param>
+      </vbox>
+      </hbox>
+    </page>
+
+  </param>
+
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu/>
+  </effect>
+
+  <script>
+    <command location="inx" interpreter="python">watch_dial_tools.py</command>
+  </script>
+</inkscape-extension>
