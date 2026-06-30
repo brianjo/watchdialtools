@@ -2,7 +2,7 @@
 
 **Watch Dial Tools** is a small open-source toolkit of Inkscape extensions for designing real, production-ready mechanical watch dials.
 
-I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). I've alsp added some simple example output to the Examples folder in the repo.
+I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). I've also added some simple example output to the Examples folder in the repo.
 
 If you use these tools to make anything, I would love to hear from you! (https://www.instagram.com/brianjophoto/)
 
