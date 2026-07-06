@@ -259,6 +259,7 @@ def aligned_radius(r: float, h: float, align: str) -> float:
     return r
 
 
+
 # Fraction of the font size from the alphabetic baseline up to a lining digit's
 # optical center (~ half the cap height). Used by the "optical" baseline mode.
 OPTICAL_DIGIT_CENTER = 0.35
@@ -757,6 +758,27 @@ class WatchDialTools(inkex.EffectExtension):
         pars.add_argument("--mp_linen_opacity", type=float, default=0.18)
         pars.add_argument("--mp_group_name", type=str, default="modern-dial-pattern")
 
+        # ---- Shapes tool (sh_) ----
+        pars.add_argument("--sh_shape_type", type=str, default="circle",
+                          choices=["circle", "rectangle", "annulus"])
+        pars.add_argument("--sh_stroke_color", type=str, default="#000000")
+        pars.add_argument("--sh_stroke_mm", type=float, default=0.12)
+        pars.add_argument("--sh_draw_fill", type=inkex.Boolean, default=False)
+        pars.add_argument("--sh_fill_color", type=str, default="#ffffff")
+        pars.add_argument("--sh_fill_opacity", type=float, default=1.0)
+        pars.add_argument("--sh_group_name", type=str, default="dial-shape")
+        pars.add_argument("--sh_circle_diameter_mm", type=float, default=28.5)
+        pars.add_argument("--sh_circle_offset_x_mm", type=float, default=0.0)
+        pars.add_argument("--sh_circle_offset_y_mm", type=float, default=0.0)
+        pars.add_argument("--sh_rect_width_mm", type=float, default=30.0)
+        pars.add_argument("--sh_rect_height_mm", type=float, default=30.0)
+        pars.add_argument("--sh_rect_corner_radius_mm", type=float, default=0.0)
+        pars.add_argument("--sh_rect_offset_x_mm", type=float, default=0.0)
+        pars.add_argument("--sh_rect_offset_y_mm", type=float, default=0.0)
+        pars.add_argument("--sh_rect_rotation_deg", type=float, default=0.0)
+        pars.add_argument("--sh_annulus_outer_diameter_mm", type=float, default=28.5)
+        pars.add_argument("--sh_annulus_inner_diameter_mm", type=float, default=22.0)
+
     # ------------------------------------------------------------------
     def effect(self):
         # self.options.ui is the name of the open notebook tab (one tab per tool).
@@ -768,6 +790,7 @@ class WatchDialTools(inkex.EffectExtension):
             "rose": self.tool_rose,
             "perlage": self.tool_perlage,
             "modern": self.tool_modern,
+            "shapes": self.tool_shapes,
         }
         handler = dispatch.get(tool, self.tool_dial)
         handler()
@@ -802,9 +825,9 @@ class WatchDialTools(inkex.EffectExtension):
             g.add(h)
 
         if o.wd_show_hour_markers:
-            r_base = mm_to_uu(svg, o.wd_hour_marker_radius_mm)
             w = mm_to_uu(svg, o.wd_hour_marker_w_mm)
             hh = mm_to_uu(svg, o.wd_hour_marker_h_mm)
+            r_base = mm_to_uu(svg, o.wd_hour_marker_radius_mm)
             r = aligned_radius(r_base, hh, o.wd_hour_marker_align)
             for i in range(12):
                 ang = (o.wd_start_angle_deg + i * 30.0) % 360.0
@@ -818,9 +841,9 @@ class WatchDialTools(inkex.EffectExtension):
                 g.add(rect)
 
         if o.wd_show_minute_ticks:
-            r_base = mm_to_uu(svg, o.wd_minute_tick_radius_mm)
             w = mm_to_uu(svg, o.wd_minute_tick_w_mm)
             h0 = mm_to_uu(svg, o.wd_minute_tick_h_mm)
+            r_base = mm_to_uu(svg, o.wd_minute_tick_radius_mm)
             for i in range(60):
                 ang = (o.wd_start_angle_deg + i * 6.0) % 360.0
                 if not o.wd_clockwise:
@@ -1320,6 +1343,89 @@ class WatchDialTools(inkex.EffectExtension):
             set_style(c, {"fill": "none", "stroke": "#000000",
                           "stroke-width": str(mm_to_uu(svg, o.mp_outline_stroke_mm))})
             g.add(c)
+
+
+    # ------------------------------------------------------------------
+    # Tool: Shapes (circle, rectangle, annulus)
+    # ------------------------------------------------------------------
+    def tool_shapes(self):
+        o = self.options
+        svg = self.document.getroot()
+        cx, cy = get_doc_center(svg)
+
+        gid = o.sh_group_name or "dial-shape"
+        g = add_root_group(svg, gid, gid)
+
+        stroke_w = mm_to_uu(svg, max(0.0, o.sh_stroke_mm))
+        stroke_color = normalize_color(o.sh_stroke_color)
+        fill = normalize_color(o.sh_fill_color) if o.sh_draw_fill else "none"
+
+        style = {
+            "fill": fill,
+            "stroke": stroke_color,
+            "stroke-width": str(stroke_w),
+        }
+        if o.sh_draw_fill and o.sh_fill_opacity < 1.0:
+            style["fill-opacity"] = str(o.sh_fill_opacity)
+
+        stype = (o.sh_shape_type or "circle").strip().lower()
+
+        if stype == "circle":
+            r = mm_to_uu(svg, max(0.0, o.sh_circle_diameter_mm / 2.0))
+            ox = mm_to_uu(svg, o.sh_circle_offset_x_mm)
+            oy = mm_to_uu(svg, o.sh_circle_offset_y_mm)
+            c = Circle()
+            c.set("cx", str(cx + ox))
+            c.set("cy", str(cy + oy))
+            c.set("r", str(r))
+            set_style(c, style)
+            g.add(c)
+
+        elif stype == "rectangle":
+            w = mm_to_uu(svg, max(0.1, o.sh_rect_width_mm))
+            h = mm_to_uu(svg, max(0.1, o.sh_rect_height_mm))
+            rx_uu = mm_to_uu(svg, max(0.0, o.sh_rect_corner_radius_mm))
+            ox = mm_to_uu(svg, o.sh_rect_offset_x_mm)
+            oy = mm_to_uu(svg, o.sh_rect_offset_y_mm)
+            rect = Rectangle()
+            set_rect_geom(rect, cx + ox - w / 2.0, cy + oy - h / 2.0, w, h)
+            if rx_uu > 0:
+                rect.set("rx", str(rx_uu))
+                rect.set("ry", str(rx_uu))
+            set_style(rect, style)
+            rot = o.sh_rect_rotation_deg
+            if abs(rot) > 1e-6:
+                rect.set("transform", f"rotate({rot},{cx + ox},{cy + oy})")
+            g.add(rect)
+
+        elif stype == "annulus":
+            r_outer = mm_to_uu(svg, max(0.0, o.sh_annulus_outer_diameter_mm / 2.0))
+            r_inner = mm_to_uu(svg, max(0.0, o.sh_annulus_inner_diameter_mm / 2.0))
+            r_inner = min(r_inner, r_outer)
+
+            if o.sh_draw_fill:
+                # Even-odd filled path draws only the ring area between the circles
+                d = (f"M {cx + r_outer:.6f},{cy:.6f} "
+                     f"A {r_outer:.6f},{r_outer:.6f} 0 1 0 {cx - r_outer:.6f},{cy:.6f} "
+                     f"A {r_outer:.6f},{r_outer:.6f} 0 1 0 {cx + r_outer:.6f},{cy:.6f} Z "
+                     f"M {cx + r_inner:.6f},{cy:.6f} "
+                     f"A {r_inner:.6f},{r_inner:.6f} 0 1 0 {cx - r_inner:.6f},{cy:.6f} "
+                     f"A {r_inner:.6f},{r_inner:.6f} 0 1 0 {cx + r_inner:.6f},{cy:.6f} Z")
+                p = new_path(d)
+                annulus_style = dict(style)
+                annulus_style["fill-rule"] = "evenodd"
+                set_style(p, annulus_style)
+                g.add(p)
+            else:
+                stroke_only = dict(style)
+                stroke_only["fill"] = "none"
+                for r in (r_outer, r_inner):
+                    c = Circle()
+                    c.set("cx", str(cx))
+                    c.set("cy", str(cy))
+                    c.set("r", str(r))
+                    set_style(c, stroke_only)
+                    g.add(c)
 
 
 if __name__ == "__main__":

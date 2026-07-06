@@ -45,7 +45,7 @@ minute ticks. Set options below, then click Apply (this tab runs the Dial tool).
       <param name="wd_omit_three" type="bool" gui-text="Omit 3 for date window">false</param>
       <separator/>
       <param name="wd_text_radius_mm" type="float" min="0" max="60" precision="2" gui-text="Text radius (mm)">11.5</param>
-      <param name="wd_text_radial_offset_mm" type="float" min="-10" max="10" precision="2" gui-text="Text radial offset (mm)">0</param>
+      <param name="wd_text_radial_offset_mm" type="float" min="-10" max="10" precision="2" gui-text="Text radial offset / fine-tune (mm)">0</param>
       <param name="wd_text_angle_offset_deg" type="float" min="-30" max="30" precision="2" gui-text="Text angle offset (deg)">0</param>
       </vbox>
       <spacer/>
@@ -134,6 +134,7 @@ minute ticks. Set options below, then click Apply (this tab runs the Dial tool).
         <option value="Felix Titling">Felix Titling</option>
         <option value="Footlight MT Light">Footlight MT Light</option>
         <option value="Forte">Forte</option>
+        <option value="Forum">Forum</option>
         <option value="Franklin Gothic Book">Franklin Gothic Book</option>
         <option value="Franklin Gothic Demi">Franklin Gothic Demi</option>
         <option value="Franklin Gothic Demi Cond">Franklin Gothic Demi Cond</option>
@@ -572,6 +573,54 @@ textures. Set options below, then click Apply.</label>
       </hbox>
       <param name="mp_linen_color" type="string" gui-text="Ink color (hex)">#000000</param>
       <param name="mp_linen_opacity" type="float" min="0" max="1" precision="3" gui-text="Opacity">0.18</param>
+      </vbox>
+      </hbox>
+    </page>
+
+    <!-- ========================= SHAPES ========================= -->
+    <page name="shapes" gui-text="Shapes">
+      <label appearance="header">Shapes &#8212; circle, rectangle, annulus</label>
+      <label>Add geometric shapes to your dial. Select a shape type and configure
+its parameters, then click Apply. All shapes center on the document center.</label>
+      <separator/>
+      <hbox>
+      <vbox>
+      <param name="sh_shape_type" type="optiongroup" appearance="combo" gui-text="Shape type">
+        <option value="circle">Circle</option>
+        <option value="rectangle">Rectangle</option>
+        <option value="annulus">Annulus (ring)</option>
+      </param>
+      <separator/>
+      <label appearance="header">Stroke</label>
+      <param name="sh_stroke_color" type="string" gui-text="Stroke color (hex)">#000000</param>
+      <param name="sh_stroke_mm" type="float" min="0.01" max="5" precision="3" gui-text="Stroke width (mm)">0.12</param>
+      <separator/>
+      <label appearance="header">Fill</label>
+      <param name="sh_draw_fill" type="bool" gui-text="Draw fill">false</param>
+      <param name="sh_fill_color" type="string" gui-text="Fill color (hex)">#ffffff</param>
+      <param name="sh_fill_opacity" type="float" min="0" max="1" precision="2" gui-text="Fill opacity">1.0</param>
+      <separator/>
+      <param name="sh_group_name" type="string" gui-text="Output group name">dial-shape</param>
+      </vbox>
+      <spacer/>
+      <vbox>
+      <label appearance="header">Circle</label>
+      <param name="sh_circle_diameter_mm" type="float" min="0.1" max="500" precision="2" gui-text="Diameter (mm)">28.5</param>
+      <param name="sh_circle_offset_x_mm" type="float" min="-200" max="200" precision="2" gui-text="X offset from center (mm)">0.0</param>
+      <param name="sh_circle_offset_y_mm" type="float" min="-200" max="200" precision="2" gui-text="Y offset from center (mm)">0.0</param>
+      <separator/>
+      <label appearance="header">Rectangle</label>
+      <param name="sh_rect_width_mm" type="float" min="0.1" max="500" precision="2" gui-text="Width (mm)">30.0</param>
+      <param name="sh_rect_height_mm" type="float" min="0.1" max="500" precision="2" gui-text="Height (mm)">30.0</param>
+      <param name="sh_rect_corner_radius_mm" type="float" min="0" max="100" precision="2" gui-text="Corner radius (mm)">0.0</param>
+      <param name="sh_rect_offset_x_mm" type="float" min="-200" max="200" precision="2" gui-text="X offset from center (mm)">0.0</param>
+      <param name="sh_rect_offset_y_mm" type="float" min="-200" max="200" precision="2" gui-text="Y offset from center (mm)">0.0</param>
+      <param name="sh_rect_rotation_deg" type="float" min="-180" max="180" precision="1" gui-text="Rotation (deg)">0.0</param>
+      <separator/>
+      <label appearance="header">Annulus (ring)</label>
+      <param name="sh_annulus_outer_diameter_mm" type="float" min="0.1" max="500" precision="2" gui-text="Outer diameter (mm)">28.5</param>
+      <param name="sh_annulus_inner_diameter_mm" type="float" min="0.1" max="500" precision="2" gui-text="Inner diameter (mm)">22.0</param>
+      <label>Enable Fill above to color the ring area (annulus only).</label>
       </vbox>
       </hbox>
     </page>

@@ -2,7 +2,7 @@
 
 **Watch Dial Tools** is a small open-source toolkit of Inkscape extensions for designing real, production-ready mechanical watch dials.
 
-I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). I've also added some simple example output to the Examples folder in the repo.
+I have a rough demo video you can watch [here](https://youtu.be/5oQK36zGMQM). I've also added some example output to the `Examples/` folder in the repo.
 
 If you use these tools to make anything, I would love to hear from you! (https://www.instagram.com/brianjophoto/)
 
@@ -22,6 +22,7 @@ The extension opens as a single dialog. Each tab is a tool — click a tab, set 
 | **Rose Engine** | Rose-engine rosettes: sine, square (engine-turned), epicycloid, with multi-ring twist/taper | old world |
 | **Perlage** | Perlage / côtes spots: staggered, grid, spiral, radial-ring layouts | old world |
 | **Modern Patterns** | Mondrian blocks, 60s Op-Art waves, psychedelic spiral stripes, paper texture, linen weave | new world |
+| **Shapes** | Centered circle, rectangle (with corner radius and rotation), or annulus (ring); configurable stroke, fill, and opacity | utility |
 
 ---
 
